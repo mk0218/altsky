@@ -33,6 +33,9 @@
 		"vite": "^7.3.1"
 	},
 	"dependencies": {
+		"@atproto/lex": "^0.0.22",
+		"@atproto/lex-password-session": "^0.0.10",
+		"@atproto/oauth-client-node": "^0.3.17",
 		"normalize.css": "^8.0.1"
 	}
 }

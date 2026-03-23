@@ -24,21 +24,18 @@
     color: var(--text);
   }
 
+  :global(button) {
+    cursor: pointer;
+  }
+
   .app {
     position: absolute;
     top: 0;
-    max-width: 920px;
+    max-width: 720px;
     width: 100vw;
     height: 100vh;
     left: 0;
     right: 0;
     margin: 0 auto;
-    padding: 16px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
   }
 </style>
