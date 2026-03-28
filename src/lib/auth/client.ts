@@ -1,16 +1,15 @@
+import {
+  delAuthSession,
+  delAuthState,
+  getAuthSession,
+  getAuthState,
+  setAuthSession,
+  setAuthState
+} from "$lib/database";
 import { NodeOAuthClient, buildAtprotoLoopbackClientMetadata } from "@atproto/oauth-client-node";
 import type { NodeSavedSession, NodeSavedState } from "@atproto/oauth-client-node";
 
 export const SCOPE = "atproto";
-
-// Use globalThis to persist across Next.js hot reloads
-const globalAuth = globalThis as unknown as {
-  stateStore: Map<string, NodeSavedState>;
-  sessionStore: Map<string, NodeSavedSession>;
-};
-
-globalAuth.stateStore ??= new Map();
-globalAuth.sessionStore ??= new Map();
 
 let client: NodeOAuthClient | null = null;
 
@@ -25,25 +24,27 @@ export async function getOAuthClient(): Promise<NodeOAuthClient> {
 
     stateStore: {
       async get(key: string) {
-        return globalAuth.stateStore.get(key);
+        const value = await getAuthState(key);
+        return JSON.parse(value);
       },
       async set(key: string, value: NodeSavedState) {
-        globalAuth.stateStore.set(key, value);
+        await setAuthState(key, JSON.stringify(value));
       },
       async del(key: string) {
-        globalAuth.stateStore.delete(key);
+        await delAuthState(key);
       }
     },
 
     sessionStore: {
       async get(key: string) {
-        return globalAuth.sessionStore.get(key);
+        const value = await getAuthSession(key);
+        return JSON.parse(value);
       },
       async set(key: string, value: NodeSavedSession) {
-        globalAuth.sessionStore.set(key, value);
+        await setAuthSession(key, JSON.stringify(value));
       },
       async del(key: string) {
-        globalAuth.sessionStore.delete(key);
+        await delAuthSession(key);
       }
     }
   });
