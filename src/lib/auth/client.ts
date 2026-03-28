@@ -18,7 +18,8 @@ import {
   type OAuthClientMetadataInput
 } from "@atproto/oauth-client-node";
 
-export const SCOPE = "atproto";
+export const SCOPE =
+  "atproto rpc:app.bsky.actor.getProfile?aud=did:web:api.bsky.app#bsky_appview blob:*/*";
 
 let client: NodeOAuthClient | null = null;
 
