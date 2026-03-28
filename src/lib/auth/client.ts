@@ -19,7 +19,7 @@ import {
 } from "@atproto/oauth-client-node";
 
 export const SCOPE =
-  "atproto rpc:app.bsky.actor.getProfile?aud=did:web:api.bsky.app#bsky_appview blob:*/*";
+  "atproto rpc:app.bsky.actor.getProfile?aud=did:web:api.bsky.app#bsky_appview repo:app.bsky.feed.post?action=create blob:*/*";
 
 let client: NodeOAuthClient | null = null;
 
@@ -30,7 +30,7 @@ const getClientMetadata = (): OAuthClientMetadataInput => {
   if (PUBLIC_URL) {
     return {
       client_id: `${PUBLIC_URL}/oauth-client-metadata.json`,
-      client_name: "OAuth Tutorial",
+      client_name: "ALTSky",
       client_uri: PUBLIC_URL,
       redirect_uris: [`${PUBLIC_URL}/oauth/callback`],
       grant_types: ["authorization_code", "refresh_token"],

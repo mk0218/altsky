@@ -18,6 +18,13 @@
     }
   });
 
+  let textarea: HTMLTextAreaElement | null;
+
+  $effect(() => {
+    if (!textarea || !text) return;
+    textarea.style.height = `${textarea?.scrollHeight}px`;
+  });
+
   const textFull = $derived(!availableChars);
 
   const slide = (
@@ -38,14 +45,14 @@
 
 <div class="bg full" transition:slide>
   <div class="content">
-    <div class="actions">
-      <Button variant="minimal" size="small" label="취소" onclick={close} />
-      <Button variant="primary" size="small" label="게시하기" />
-    </div>
-    <form>
-      <textarea bind:value={text} class="bg"></textarea>
+    <form method="POST" action="?/post">
+      <div class="actions">
+        <Button variant="minimal" size="small" label="취소" onclick={close} />
+        <Button variant="primary" size="small" label="게시하기" type="submit" />
+      </div>
+      <textarea name="text" bind:this={textarea} bind:value={text} class="bg"></textarea>
       <div class="functions">
-        <Button variant="minimal" size="small" label="이미지 첨부" />
+        <Button variant="minimal" size="small" icon="image" label="사진 추가" />
         <div class="available-chars" class:textFull>{availableChars}</div>
       </div>
     </form>
@@ -84,11 +91,14 @@
     outline: none;
     box-sizing: border-box;
     width: 100%;
-    height: 210px;
+    min-height: 120px;
+    height: auto;
     padding: 16px 30px;
     resize: none;
     font-size: 1rem;
+    line-height: 1.4rem;
     caret-color: var(--primary);
+    overflow: hidden;
   }
 
   .functions {

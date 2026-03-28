@@ -32,7 +32,7 @@
   class:small={size === "small"}
 >
   {#if icon}
-    <img src={`/icons/${icon}.svg`} alt={icon} />
+    <img src={`/icons/${icon}${variant === "minimal" ? "-primary" : ""}.svg`} alt={icon} />
   {/if}
   {label}</button
 >

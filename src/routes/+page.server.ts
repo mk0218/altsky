@@ -2,6 +2,8 @@ import { fail, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { getOAuthClient, SCOPE } from "$lib/auth/client";
 import { getSession } from "$lib/auth/session";
+import { asDatetimeString, Client } from "@atproto/lex";
+import { bsky } from "../lexicons/app";
 
 export const load: PageServerLoad = async ({ cookies }) => {
   const session = await getSession(cookies);
@@ -34,5 +36,17 @@ export const actions: Actions = {
     } else {
       return fail(500, { error: "Something went wrong.." });
     }
+  },
+  post: async ({ request, cookies }) => {
+    const session = await getSession(cookies);
+    const formData = await request.formData();
+    const text = formData.get("text");
+    if (!session || !text) return; // TODO: error something
+    const client = new Client(session);
+    const result = await client.create(bsky.feed.post, {
+      text: text as string,
+      createdAt: asDatetimeString(new Date().toISOString())
+    });
+    return { result };
   }
 };
