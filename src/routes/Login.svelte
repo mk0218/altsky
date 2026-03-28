@@ -58,11 +58,17 @@
   button.login {
     margin-top: 4px;
     height: 50px;
-    background-color: var(--primary);
+    background: var(--primary);
     color: var(--white);
     border: none;
     border-radius: 16px;
     font-size: 1.12rem;
     font-weight: 600;
+    transition: background var(--out);
+  }
+
+  button:active {
+    background: var(--primary-faded);
+    transition: background var(--in);
   }
 </style>

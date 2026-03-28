@@ -46,7 +46,14 @@
     top: 10px;
     background: none;
     border: none;
-    padding: 2px;
+    padding: 7px;
+    border-radius: 50%;
+    transition: background var(--out);
+  }
+
+  .menu-button:active {
+    background: rgba(0, 0, 0, 3%);
+    transition: background var(--in);
   }
 
   .write {
@@ -73,13 +80,19 @@
       font-weight: 500;
       inset: unset;
       border: none;
-      background-color: var(--primary);
+      background: var(--primary);
       color: var(--white);
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
       gap: 4px;
+      transition: background var(--out);
+
+      &:active {
+        background: var(--primary-faded);
+        transition: background var(--in);
+      }
     }
   }
 </style>

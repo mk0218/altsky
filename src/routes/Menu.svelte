@@ -67,7 +67,14 @@
     top: 10px;
     background: none;
     border: none;
-    padding: 2px;
+    padding: 7px;
+    border-radius: 50%;
+    transition: background var(--out);
+  }
+
+  .close-button:active {
+    background: rgba(0, 0, 0, 3%);
+    transition: background var(--in);
   }
 
   .menu-contents {
@@ -87,9 +94,11 @@
   .logout {
     font-weight: 500;
     color: var(--primary);
+    transition: color var(--out);
   }
 
   .logout:active {
     color: var(--primary-faded);
+    transition: background var(--in);
   }
 </style>

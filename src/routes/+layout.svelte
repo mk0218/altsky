@@ -18,6 +18,9 @@
   @import "$lib/assets/css/fonts";
 
   :global(body) {
+    --in: 50ms ease-in;
+    --out: 100ms ease-out 20ms;
+
     font-family: "Escoredream";
     font-weight: 400;
     background-color: var(--bg);
