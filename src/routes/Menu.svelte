@@ -28,7 +28,7 @@
 
   <div
     class="menu-contents"
-    in:fly={{ delay: 400, duration: 800, y: 30 }}
+    in:fly={{ delay: 450, duration: 600, y: 20 }}
     out:blur={{ duration: 200 }}
   >
     <MenuButton label="로그아웃" onclick={logout} variant="primary" bold />
@@ -37,7 +37,7 @@
 
 <style>
   .full {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
