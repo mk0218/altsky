@@ -43,7 +43,7 @@ const getClientMetadata = (): OAuthClientMetadataInput => {
   } else {
     return buildAtprotoLoopbackClientMetadata({
       scope: SCOPE,
-      redirect_uris: ["http://127.0.0.1:3000/oauth/callback"]
+      redirect_uris: ["http://127.0.0.1:5173/oauth/callback"]
     });
   }
 };
