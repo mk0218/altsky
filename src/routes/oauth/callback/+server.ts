@@ -19,11 +19,9 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
       path: "/"
     });
 
-    // redirect(303, new URL("/", PUBLIC_URL));
     redirectUrl = new URL("/", PUBLIC_URL);
   } catch (error) {
     console.error("OAuth callback error: ", error);
-    // redirect(303, new URL("/?error=login_failed", PUBLIC_URL));
     redirectUrl = new URL("/?error=login_failed", PUBLIC_URL);
   }
 

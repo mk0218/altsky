@@ -9,5 +9,6 @@ body {
   --text: #32424a;
   --black: #000;
   --primary: #4586ff;
+  --primary-faded: #649aff;
   --error: #ef8354;
 }

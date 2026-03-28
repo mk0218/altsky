@@ -1,7 +1,19 @@
 <script lang="ts">
-  import { blur, slide } from "svelte/transition";
+  import { refreshAll } from "$app/navigation";
+  import { blur, fly, slide } from "svelte/transition";
 
   const { close } = $props();
+
+  const logout = async () => {
+    try {
+      await fetch("/oauth/logout", { method: "POST" });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+
+    refreshAll();
+  };
 </script>
 
 <div
@@ -19,6 +31,14 @@
   >
     <img src="/icons/close.svg" alt="close" />
   </button>
+
+  <div
+    class="menu-contents"
+    in:fly={{ delay: 400, duration: 800, y: 30 }}
+    out:blur={{ duration: 200 }}
+  >
+    <button class="menu-button logout" onclick={logout}>로그아웃</button>
+  </div>
 </div>
 
 <style>
@@ -38,6 +58,7 @@
     box-sizing: border-box;
     background: var(--bg);
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 10%);
+    padding: 200px 55px 0;
   }
 
   .close-button {
@@ -47,5 +68,28 @@
     background: none;
     border: none;
     padding: 2px;
+  }
+
+  .menu-contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+  }
+
+  .menu-button {
+    background: none;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.7rem;
+  }
+
+  .logout {
+    font-weight: 500;
+    color: var(--primary);
+  }
+
+  .logout:active {
+    color: var(--primary-faded);
   }
 </style>

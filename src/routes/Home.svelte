@@ -3,15 +3,13 @@
   import Menu from "./Menu.svelte";
 
   let showMenu = $state(false);
+
+  const openMenu = () => (showMenu = true);
+  const closeMenu = () => (showMenu = false);
 </script>
 
 <div class="home">
-  <button
-    class="menu-button"
-    onclick={() => {
-      showMenu = true;
-    }}
-  >
+  <button class="menu-button" onclick={openMenu}>
     <img src="/icons/menu.svg" alt="menu" />
   </button>
 
@@ -21,16 +19,12 @@
 
   <div class="buttons">
     <button><img src="/icons/image.svg" alt="icon" />사진 업로드</button>
-    <button><img src="icons/link.svg" alt="link" />게시물 보기</button>
+    <button><img src="/icons/link.svg" alt="link" />게시물 보기</button>
   </div>
 </div>
 
 {#if showMenu}
-  <Menu
-    close={() => {
-      showMenu = false;
-    }}
-  />
+  <Menu close={closeMenu} />
 {/if}
 
 <style>
