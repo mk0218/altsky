@@ -6,15 +6,31 @@
   type Props = {
     icon?: Icon;
     label: string;
+    variant?: "primary" | "minimal";
+    size?: "full" | "small";
     type?: "button" | "submit" | "reset" | null;
     onclick?: MouseEventHandler<HTMLButtonElement>;
     class?: string;
   };
 
-  const { icon, label, type, onclick, ...restProps }: Props = $props();
+  const {
+    icon,
+    label,
+    variant = "primary",
+    size = "full",
+    type,
+    onclick,
+    ...restProps
+  }: Props = $props();
 </script>
 
-<button {type} {onclick} class={restProps.class}>
+<button
+  {type}
+  {onclick}
+  class={restProps.class}
+  class:minimal={variant === "minimal"}
+  class:small={size === "small"}
+>
   {#if icon}
     <img src={`/icons/${icon}.svg`} alt={icon} />
   {/if}
@@ -44,5 +60,22 @@
   button:active {
     background: var(--primary-faded);
     transition: background var(--in);
+  }
+
+  .minimal {
+    background: none;
+    color: var(--primary);
+    transition: background var(--out);
+  }
+
+  .minimal:active {
+    background: rgba(0, 0, 0, 3%);
+    transition: background var(--in);
+  }
+
+  .small {
+    width: unset;
+    padding: 0 12px;
+    height: 36px;
   }
 </style>
