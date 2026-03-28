@@ -1,5 +1,6 @@
 <script>
   import { enhance } from "$app/forms";
+  import Button from "$lib/components/buttons/Button.svelte";
   import Title from "$lib/components/Title.svelte";
 </script>
 
@@ -8,7 +9,7 @@
 
   <form method="POST" use:enhance>
     <input type="text" name="handle" required placeholder="블루스카이 핸들" />
-    <button type="submit" class="login">로그인</button>
+    <Button type="submit" label="로그인" />
   </form>
 </div>
 
@@ -53,22 +54,5 @@
   }
   input::placeholder {
     color: var(--gray3);
-  }
-
-  button.login {
-    margin-top: 4px;
-    height: 50px;
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    border-radius: 16px;
-    font-size: 1.12rem;
-    font-weight: 600;
-    transition: background var(--out);
-  }
-
-  button:active {
-    background: var(--primary-faded);
-    transition: background var(--in);
   }
 </style>

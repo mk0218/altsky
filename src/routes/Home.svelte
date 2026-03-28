@@ -1,4 +1,6 @@
 <script>
+  import Button from "$lib/components/buttons/Button.svelte";
+  import NavButton from "$lib/components/buttons/NavButton.svelte";
   import Title from "$lib/components/Title.svelte";
   import Menu from "./Menu.svelte";
 
@@ -9,17 +11,15 @@
 </script>
 
 <div class="home">
-  <button class="menu-button" onclick={openMenu}>
-    <img src="/icons/menu.svg" alt="menu" />
-  </button>
+  <NavButton icon="menu" position="left" onclick={openMenu} />
 
   <Title />
 
   <div class="write">무슨 일이 일어나고 있나요?</div>
 
   <div class="buttons">
-    <button><img src="/icons/image.svg" alt="icon" />사진 업로드</button>
-    <button><img src="/icons/link.svg" alt="link" />게시물 보기</button>
+    <Button icon="image" label="사진 업로드" />
+    <Button icon="link" label="게시물 보기" />
   </div>
 </div>
 
@@ -40,22 +40,6 @@
     gap: 16px;
   }
 
-  .menu-button {
-    position: fixed;
-    left: 10px;
-    top: 10px;
-    background: none;
-    border: none;
-    padding: 7px;
-    border-radius: 50%;
-    transition: background var(--out);
-  }
-
-  .menu-button:active {
-    background: rgba(0, 0, 0, 3%);
-    transition: background var(--in);
-  }
-
   .write {
     width: 100%;
     height: 120px;
@@ -73,26 +57,5 @@
     justify-content: stretch;
     align-items: stretch;
     gap: 8px;
-
-    & > button {
-      flex: 1;
-      border-radius: 16px;
-      font-weight: 500;
-      inset: unset;
-      border: none;
-      background: var(--primary);
-      color: var(--white);
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 4px;
-      transition: background var(--out);
-
-      &:active {
-        background: var(--primary-faded);
-        transition: background var(--in);
-      }
-    }
   }
 </style>
