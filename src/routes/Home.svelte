@@ -1,9 +1,17 @@
 <script>
   import Title from "$lib/components/Title.svelte";
+  import Menu from "./Menu.svelte";
+
+  let showMenu = $state(false);
 </script>
 
 <div class="home">
-  <button class="menu-button">
+  <button
+    class="menu-button"
+    onclick={() => {
+      showMenu = true;
+    }}
+  >
     <img src="/icons/menu.svg" alt="menu" />
   </button>
 
@@ -16,6 +24,14 @@
     <button><img src="icons/link.svg" alt="link" />게시물 보기</button>
   </div>
 </div>
+
+{#if showMenu}
+  <Menu
+    close={() => {
+      showMenu = false;
+    }}
+  />
+{/if}
 
 <style>
   .home {
