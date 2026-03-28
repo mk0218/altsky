@@ -3,11 +3,15 @@
   import NavButton from "$lib/components/buttons/NavButton.svelte";
   import Title from "$lib/components/Title.svelte";
   import Menu from "./Menu.svelte";
+  import PostEditor from "./PostEditor.svelte";
 
   let showMenu = $state(false);
-
   const openMenu = () => (showMenu = true);
   const closeMenu = () => (showMenu = false);
+
+  let showEditor = $state(false);
+  const openEditor = () => (showEditor = true);
+  const closeEditor = () => (showEditor = false);
 </script>
 
 <div class="home">
@@ -15,7 +19,7 @@
 
   <Title />
 
-  <div class="write">무슨 일이 일어나고 있나요?</div>
+  <button class="write" onclick={openEditor}><div>무슨 일이 일어나고 있나요?</div></button>
 
   <div class="buttons">
     <Button icon="image" label="사진 업로드" />
@@ -25,6 +29,10 @@
 
 {#if showMenu}
   <Menu close={closeMenu} />
+{/if}
+
+{#if showEditor}
+  <PostEditor close={closeEditor} />
 {/if}
 
 <style>
@@ -43,10 +51,20 @@
   .write {
     width: 100%;
     height: 120px;
+
     border: 1.5px solid var(--primary);
     border-radius: 16px;
     box-sizing: border-box;
     padding: 20px;
+
+    background: var(--bg);
+    text-align: left;
+    cursor: text;
+
+    div {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .buttons {

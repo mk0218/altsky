@@ -1,5 +1,6 @@
 <script lang="ts">
   import { refreshAll } from "$app/navigation";
+  import BackgroundBlur from "$lib/components/BackgroundBlur.svelte";
   import MenuButton from "$lib/components/buttons/MenuButton.svelte";
   import NavButton from "$lib/components/buttons/NavButton.svelte";
   import { blur, fly, slide } from "svelte/transition";
@@ -17,11 +18,7 @@
   };
 </script>
 
-<div
-  class="full blur-background"
-  in:blur={{ delay: 50, duration: 200 }}
-  out:blur={{ delay: 240, duration: 200 }}
-></div>
+<BackgroundBlur />
 
 <div class="full menu" transition:slide={{ delay: 200, duration: 200, axis: "x" }}>
   <NavButton icon="close" onclick={close} position="right" />
@@ -42,10 +39,6 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-  }
-
-  .blur-background {
-    background: rgba(0, 0, 0, 4%);
   }
 
   .menu {
