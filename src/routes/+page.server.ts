@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  login: async ({ request }) => {
     let authUrl;
 
     try {

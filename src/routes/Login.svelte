@@ -7,7 +7,7 @@
 <div class="login">
   <Title />
 
-  <form method="POST" use:enhance>
+  <form method="POST" action="?/login" use:enhance>
     <input type="text" name="handle" required placeholder="블루스카이 핸들" />
     <Button type="submit" label="로그인" />
   </form>
