@@ -123,7 +123,7 @@
     top: 0;
     max-width: 720px;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     left: 0;
     right: 0;
     margin: 0 auto;
