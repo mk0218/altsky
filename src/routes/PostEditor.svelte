@@ -63,6 +63,8 @@
       }
     };
   };
+
+  let loading = $state(false);
 </script>
 
 <BackgroundBlur />
@@ -74,6 +76,8 @@
       action="?/post"
       enctype="multipart/form-data"
       use:enhance={({ formData }) => {
+        if (loading) return;
+        loading = true;
         for (const image of images) {
           formData.append("images", image.file);
         }
@@ -81,13 +85,14 @@
           if (result.type === "success") {
             await update();
             images = [];
+            loading = false;
           }
         };
       }}
     >
       <div class="actions">
         <Button variant="minimal" size="small" label="취소" onclick={close} />
-        <Button variant="primary" size="small" label="게시하기" type="submit" />
+        <Button variant="primary" size="small" label="게시하기" type="submit" disabled={loading} />
       </div>
       <textarea
         placeholder="무슨 일이 일어나고 있나요?"

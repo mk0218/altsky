@@ -10,6 +10,7 @@
     size?: "full" | "small";
     type?: "button" | "submit" | "reset" | null;
     onclick?: MouseEventHandler<HTMLButtonElement>;
+    disabled?: boolean;
     class?: string;
   };
 
@@ -20,6 +21,7 @@
     size = "full",
     type,
     onclick,
+    disabled = false,
     ...restProps
   }: Props = $props();
 </script>
@@ -27,6 +29,7 @@
 <button
   {type}
   {onclick}
+  {disabled}
   class={restProps.class}
   class:minimal={variant === "minimal"}
   class:small={size === "small"}
