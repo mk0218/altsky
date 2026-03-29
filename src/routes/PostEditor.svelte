@@ -3,7 +3,8 @@
   import BackgroundBlur from "$lib/components/BackgroundBlur.svelte";
   import Button from "$lib/components/buttons/Button.svelte";
   import Thumbnail from "$lib/components/Thumbnail.svelte";
-  import { onMount } from "svelte";
+  import { throttle } from "$lib/throttle";
+  import { onDestroy, onMount } from "svelte";
   import type { TransitionConfig } from "svelte/transition";
 
   type Props = {
@@ -20,6 +21,31 @@
 
   let text = $state("");
   const availableChars = $derived(300 - text.length);
+
+  onMount(() => {
+    if (localStorage) {
+      text = localStorage.getItem("post") ?? "";
+    }
+  });
+
+  const autoSave = throttle((value: string) => {
+    localStorage.setItem("post", value);
+  }, 1000);
+
+  $effect(() => {
+    if (localStorage) {
+      autoSave(text);
+    }
+  });
+
+  onDestroy(() => {
+    autoSave.cancel();
+  });
+
+  const handleClose = () => {
+    localStorage.removeItem("post");
+    close();
+  };
 
   $effect(() => {
     if (text.length > 300) {
@@ -99,7 +125,7 @@
       }}
     >
       <div class="actions">
-        <Button variant="minimal" size="small" label="취소" onclick={close} />
+        <Button variant="minimal" size="small" label="취소" onclick={handleClose} />
         <Button variant="primary" size="small" label="게시하기" type="submit" disabled={loading} />
       </div>
       <textarea
