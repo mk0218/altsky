@@ -44,6 +44,7 @@
 
   const handleClose = () => {
     localStorage.removeItem("post");
+    autoSave.cancel();
     close();
   };
 
