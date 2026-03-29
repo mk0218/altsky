@@ -59,6 +59,7 @@
 
     background: var(--bg);
     text-align: left;
+    color: var(--gray3);
     cursor: text;
 
     div {
