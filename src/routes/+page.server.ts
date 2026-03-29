@@ -44,11 +44,17 @@ export const actions: Actions = {
     const session = await getSession(cookies);
     const formData = await request.formData();
     const text = formData.get("text");
-    if (!session || text === null) return; // TODO: error something
+
+    if (!session || typeof text !== "string") return; // TODO: error something
+
     const images = formData.getAll("images");
+
+    if (!text && images.length === 0) return; // TODO: error handling
+
     const client = new Client(session);
 
     const blobs: { alt: string; image: BlobRef; aspectRatio: AspectRatio }[] = [];
+
     for (const image of images) {
       if (image instanceof File) {
         const arrayBuffer = await image.arrayBuffer();
