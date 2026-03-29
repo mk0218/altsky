@@ -39,6 +39,7 @@
     "@atproto/lex-password-session": "^0.0.10",
     "@atproto/oauth-client-node": "^0.3.17",
     "@neondatabase/serverless": "^1.0.2",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "sharp": "^0.34.5"
   }
 }

@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import BackgroundBlur from "$lib/components/BackgroundBlur.svelte";
   import Button from "$lib/components/buttons/Button.svelte";
+  import Thumbnail from "$lib/components/Thumbnail.svelte";
   import type { TransitionConfig } from "svelte/transition";
 
   type Props = {
@@ -27,6 +29,28 @@
 
   const textFull = $derived(!availableChars);
 
+  let files = $state<FileList | null>(null);
+  let fileInput = $state<HTMLInputElement | null>(null);
+
+  const upload = () => {
+    if (fileInput) fileInput.click();
+  };
+
+  let images = $state<{ preview: string; file: File }[]>([]);
+
+  $effect(() => {
+    if (!files || images.length + files.length > 4) return;
+
+    [...files]
+      .filter((file) => file.type.startsWith("image/"))
+      .forEach((file) => {
+        const preview = URL.createObjectURL(file);
+        images.push({ preview, file });
+      });
+
+    files = null;
+  });
+
   const slide = (
     _: Element,
     { delay = 160, duration = 240 } = { delay: 160, duration: 240 }
@@ -45,17 +69,46 @@
 
 <div class="bg full" transition:slide>
   <div class="content">
-    <form method="POST" action="?/post">
+    <form
+      method="POST"
+      action="?/post"
+      enctype="multipart/form-data"
+      use:enhance={({ formData }) => {
+        for (const image of images) {
+          formData.append("images", image.file);
+        }
+        return async ({ update, result }) => {
+          if (result.type === "success") {
+            await update();
+            images = [];
+          }
+        };
+      }}
+    >
       <div class="actions">
         <Button variant="minimal" size="small" label="취소" onclick={close} />
         <Button variant="primary" size="small" label="게시하기" type="submit" />
       </div>
-      <textarea name="text" bind:this={textarea} bind:value={text} class="bg"></textarea>
-      <div class="functions">
-        <Button variant="minimal" size="small" icon="image" label="사진 추가" />
-        <div class="available-chars" class:textFull>{availableChars}</div>
-      </div>
+      <textarea
+        placeholder="무슨 일이 일어나고 있나요?"
+        name="text"
+        bind:this={textarea}
+        bind:value={text}
+        class="bg"
+      ></textarea>
     </form>
+    {#if images.length > 0}
+      <div class="image-preview">
+        {#each images as image, index (index)}
+          <Thumbnail src={image.preview} close={() => images.splice(index, 1)} />
+        {/each}
+      </div>
+    {/if}
+    <div class="functions">
+      <input type="file" bind:files bind:this={fileInput} multiple accept=".jpg, .jpeg, .png" />
+      <Button variant="minimal" size="small" icon="image" label="사진 추가" onclick={upload} />
+      <div class="available-chars" class:textFull>{availableChars}</div>
+    </div>
   </div>
 </div>
 
@@ -91,7 +144,7 @@
     outline: none;
     box-sizing: border-box;
     width: 100%;
-    min-height: 120px;
+    min-height: 160px;
     height: auto;
     padding: 16px 30px;
     resize: none;
@@ -99,6 +152,18 @@
     line-height: 1.4rem;
     caret-color: var(--primary);
     overflow: hidden;
+
+    &::placeholder {
+      color: var(--gray3);
+    }
+  }
+
+  .image-preview {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    padding: 20px;
+    gap: 3%;
   }
 
   .functions {
@@ -110,6 +175,10 @@
     align-items: center;
     border-top: 0.5px solid var(--gray3);
     border-bottom: 0.5px solid var(--gray3);
+  }
+
+  input[type="file"] {
+    display: none;
   }
 
   .available-chars {
