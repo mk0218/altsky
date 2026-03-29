@@ -19,7 +19,7 @@
     label,
     variant = "primary",
     size = "full",
-    type,
+    type = "button",
     onclick,
     disabled = false,
     ...restProps
