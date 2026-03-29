@@ -42,6 +42,9 @@
 
 <style>
   button {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
     width: 100%;
     height: 50px;
 
@@ -50,6 +53,7 @@
     border: none;
     border-radius: 16px;
     font-size: 1.12rem;
+    font-weight: 500;
 
     display: flex;
     flex-direction: row;

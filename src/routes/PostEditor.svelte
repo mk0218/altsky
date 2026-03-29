@@ -3,11 +3,18 @@
   import BackgroundBlur from "$lib/components/BackgroundBlur.svelte";
   import Button from "$lib/components/buttons/Button.svelte";
   import Thumbnail from "$lib/components/Thumbnail.svelte";
+  import { onMount } from "svelte";
   import type { TransitionConfig } from "svelte/transition";
 
   type Props = {
     close: () => void;
   };
+
+  onMount(() => {
+    if (textarea) {
+      textarea.focus();
+    }
+  });
 
   const { close }: Props = $props();
 
@@ -86,6 +93,7 @@
             await update();
             images = [];
             loading = false;
+            close(); // TODO: Show post.
           }
         };
       }}
@@ -109,6 +117,9 @@
         {/each}
       </div>
     {/if}
+  </div>
+
+  <div class="functions-bar">
     <div class="functions">
       <input type="file" bind:files bind:this={fileInput} multiple accept=".jpg, .jpeg, .png" />
       <Button variant="minimal" size="small" icon="image" label="사진 추가" onclick={upload} />
@@ -123,7 +134,7 @@
     top: 0;
     max-width: 720px;
     width: 100vw;
-    height: 100dvh;
+    height: 100svh;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -131,6 +142,8 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    overflow-y: auto;
+    overscroll-behavior-y: none;
   }
 
   .actions {
@@ -142,6 +155,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg);
   }
 
   textarea {
@@ -171,20 +185,29 @@
     gap: 3%;
   }
 
-  .functions {
+  .functions-bar {
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: 100%;
+    bottom: calc(54px - 120px);
+    width: 100vw;
+    height: 120px;
+
+    border-top: 0.5px solid var(--gray3);
+    background: var(--bg);
+  }
+
+  .functions {
+    max-width: 720px;
     height: 54px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     padding: 0 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-top: 0.5px solid var(--gray3);
-    border-bottom: 0.5px solid var(--gray3);
   }
 
   input[type="file"] {
@@ -193,7 +216,7 @@
 
   .available-chars {
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--primary);
     justify-self: end;
     padding: 0 12px;

@@ -22,7 +22,7 @@
     --out: 100ms ease-out 20ms;
 
     font-family: "Escoredream";
-    font-weight: 400;
+    font-weight: 600;
     background-color: var(--bg);
     color: var(--text);
   }

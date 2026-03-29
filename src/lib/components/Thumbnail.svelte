@@ -18,7 +18,7 @@
 <style>
   .container {
     aspect-ratio: 1 / 1;
-    max-height: 240px;
+    max-height: 360px;
     flex: 1;
     border-radius: 4px;
     overflow: hidden;

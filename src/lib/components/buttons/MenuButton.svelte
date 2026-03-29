@@ -19,6 +19,7 @@
     border: none;
     padding: 12px 30px;
     font-size: 1.7rem;
+    font-weight: 500;
     color: var(--black);
     transition: color var(--out);
   }
@@ -29,7 +30,7 @@
   }
 
   .bold {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .primary {
