@@ -48,6 +48,7 @@ export const actions: Actions = {
     if (!session || typeof text !== "string") return; // TODO: error something
 
     const images = formData.getAll("images");
+    const alts = formData.getAll("alts");
 
     if (!text && images.length === 0) return; // TODO: error handling
 
@@ -55,14 +56,16 @@ export const actions: Actions = {
 
     const blobs: { alt: string; image: BlobRef; aspectRatio: AspectRatio }[] = [];
 
-    for (const image of images) {
-      if (image instanceof File) {
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      const alt = alts[i];
+      if (image instanceof File && typeof alt === "string") {
         const arrayBuffer = await image.arrayBuffer();
         const metadata = await sharp(arrayBuffer).metadata();
         const { width, height } = metadata;
         const bytes = await image.bytes();
         const res = await client.call(atproto.repo.uploadBlob, bytes);
-        blobs.push({ alt: "", image: res.blob, aspectRatio: { width, height } });
+        blobs.push({ alt, image: res.blob, aspectRatio: { width, height } });
       }
     }
 

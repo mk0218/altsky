@@ -1,24 +1,28 @@
 <script lang="ts">
+  import type { MouseEventHandler } from "svelte/elements";
+
   type Props = {
     src: string;
     alt?: string;
     close: () => void;
+    onclick?: MouseEventHandler<HTMLButtonElement>;
   };
 
-  const { src, alt = "", close }: Props = $props();
+  const { src, alt = "", close, ...restProps }: Props = $props();
 </script>
 
 <div class="container">
   <button class="close-btn" onclick={close}>
     <img src="/icons/close-small.svg" alt="delete" />
   </button>
-  <img class="thumbnail-img" {src} {alt} />
+  <button class="image" onclick={restProps.onclick}>
+    <img {src} {alt} />
+  </button>
 </div>
 
 <style>
   .container {
     aspect-ratio: 1 / 1;
-    max-height: 360px;
     flex: 1;
     border-radius: 4px;
     overflow: hidden;
@@ -44,5 +48,13 @@
     box-shadow: 1px 1px 6px rgba(0, 0, 0, 24%);
     box-sizing: border-box;
     padding: 2px;
+  }
+
+  .image {
+    padding: 0;
+    border: none;
+    background: var(--gray1);
+    width: 100%;
+    height: 100%;
   }
 </style>

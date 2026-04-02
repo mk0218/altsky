@@ -5,7 +5,8 @@
   import Thumbnail from "$lib/components/Thumbnail.svelte";
   import { throttle } from "$lib/throttle";
   import { onDestroy, onMount } from "svelte";
-  import type { TransitionConfig } from "svelte/transition";
+  import { fly } from "svelte/transition";
+  import ImagePreview from "./ImagePreview.svelte";
 
   type Props = {
     close: () => void;
@@ -70,7 +71,9 @@
     if (fileInput) fileInput.click();
   };
 
-  let images = $state<{ preview: string; file: File }[]>([]);
+  type Image = { preview: string; alt: string; file: File };
+
+  let images = $state<Image[]>([]);
 
   $effect(() => {
     if (!files || images.length + files.length > 4) return;
@@ -79,31 +82,19 @@
       .filter((file) => file.type.startsWith("image/"))
       .forEach((file) => {
         const preview = URL.createObjectURL(file);
-        images.push({ preview, file });
+        images.push({ preview, alt: "", file });
       });
 
     files = null;
   });
 
-  const slide = (
-    _: Element,
-    { delay = 160, duration = 240 } = { delay: 160, duration: 240 }
-  ): TransitionConfig => {
-    return {
-      delay,
-      duration,
-      css: (_, u) => {
-        return `top: ${u * 100}%`;
-      }
-    };
-  };
-
   let loading = $state(false);
+  let selectedImage = $state<Image | null>(null);
 </script>
 
 <BackgroundBlur />
 
-<div class="bg full" transition:slide>
+<div class="bg full" transition:fly={{ y: "100%", opacity: 1 }}>
   <div class="content">
     <form
       method="POST"
@@ -114,6 +105,7 @@
         loading = true;
         for (const image of images) {
           formData.append("images", image.file);
+          formData.append("alts", image.alt);
         }
         return async ({ update, result }) => {
           if (result.type === "success") {
@@ -140,7 +132,11 @@
     {#if images.length > 0}
       <div class="image-preview">
         {#each images as image, index (index)}
-          <Thumbnail src={image.preview} close={() => images.splice(index, 1)} />
+          <Thumbnail
+            src={image.preview}
+            close={() => images.splice(index, 1)}
+            onclick={() => (selectedImage = image)}
+          />
         {/each}
       </div>
     {/if}
@@ -154,6 +150,14 @@
     </div>
   </div>
 </div>
+
+{#if selectedImage !== null}
+  <ImagePreview
+    src={selectedImage.preview}
+    bind:alt={selectedImage.alt}
+    onclose={() => (selectedImage = null)}
+  />
+{/if}
 
 <style>
   .content {
