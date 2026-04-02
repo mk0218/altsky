@@ -111,9 +111,9 @@
           if (result.type === "success") {
             await update();
             images = [];
-            loading = false;
             close(); // TODO: Show post.
           }
+          loading = false;
         };
       }}
     >
