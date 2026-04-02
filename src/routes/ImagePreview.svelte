@@ -1,6 +1,7 @@
 <script lang="ts">
   import BackgroundBlur from "$lib/components/BackgroundBlur.svelte";
   import NavButton from "$lib/components/buttons/NavButton.svelte";
+  import { onMount } from "svelte";
   import { fly } from "svelte/transition";
 
   type Props = {
@@ -10,6 +11,12 @@
   };
 
   let { src, alt = $bindable(), onclose }: Props = $props();
+
+  let textarea = $state<HTMLTextAreaElement | null>(null);
+
+  onMount(() => {
+    textarea?.focus();
+  });
 </script>
 
 <BackgroundBlur />
@@ -19,7 +26,8 @@
 
   <div class="drawer-content">
     <img {src} alt="선택한 이미지" draggable={false} />
-    <textarea bind:value={alt} placeholder="대체 텍스트를 입력하세요."></textarea>
+    <textarea bind:this={textarea} bind:value={alt} placeholder="대체 텍스트를 입력하세요."
+    ></textarea>
   </div>
 </div>
 
