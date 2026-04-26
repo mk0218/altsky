@@ -2,14 +2,21 @@
   import { enhance } from "$app/forms";
   import Button from "$lib/components/buttons/Button.svelte";
   import Title from "$lib/components/Title.svelte";
+  import { onDestroy } from "svelte";
+
+  let loading = $state(false);
+
+  onDestroy(() => {
+    loading = false;
+  });
 </script>
 
 <div class="login">
   <Title />
 
-  <form method="POST" action="?/login" use:enhance>
+  <form method="POST" action="?/login" onsubmit={() => (loading = true)} use:enhance>
     <input type="text" name="handle" required placeholder="블루스카이 핸들" />
-    <Button type="submit" label="로그인" />
+    <Button type="submit" label="로그인" {loading} />
   </form>
 </div>
 

@@ -22,8 +22,8 @@
   <button class="write" onclick={openEditor}><div>무슨 일이 일어나고 있나요?</div></button>
 
   <div class="buttons">
-    <Button icon="image" label="사진 업로드" />
-    <Button icon="link" label="게시물 보기" />
+    <Button icon="image" label="사진 업로드" disabled />
+    <Button icon="link" label="게시물 보기" disabled />
   </div>
 </div>
 
