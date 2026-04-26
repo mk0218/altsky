@@ -38,6 +38,6 @@
   }
 
   .primary:active {
-    color: var(--primary-faded);
+    color: var(--primary-active);
   }
 </style>

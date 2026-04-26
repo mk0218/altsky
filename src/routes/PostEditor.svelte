@@ -119,7 +119,14 @@
     >
       <div class="actions">
         <Button variant="minimal" size="small" label="취소" onclick={handleClose} />
-        <Button variant="primary" size="small" label="게시하기" type="submit" disabled={loading} />
+        <Button
+          variant="primary"
+          size="small"
+          label="게시하기"
+          type="submit"
+          {loading}
+          disabled={loading || (!text.length && !images.length)}
+        />
       </div>
       <textarea
         placeholder="무슨 일이 일어나고 있나요?"

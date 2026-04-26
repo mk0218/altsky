@@ -9,6 +9,7 @@ body {
   --text: #32424a;
   --black: #000;
   --primary: #4586ff;
-  --primary-faded: #649aff;
+  --primary-active: #2470ff;
+  --primary-disabled: #6fa1ff;
   --error: #ef8354;
 }
